@@ -1,3 +1,10 @@
 {
-  "customers": []
+  "customers": [
+    {
+      "firstName": "Quan TEST",
+      "lastName": "Zhang",
+      "dateOfBirth": "1993-09-16",
+      "id": 1
+    }
+  ]
 }
