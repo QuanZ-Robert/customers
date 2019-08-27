@@ -4,7 +4,8 @@ import {
   DELETE_CUSTOMER,
   EDIT_CUSTOMER,
   GET_CUSTOMER,
-  GET_CUSTOMERS
+  GET_CUSTOMERS,
+  SEARCH_CUSTOMER
 } from "../actions/types";
 import _ from "lodash";
 import { ICustomerReducerState } from "./data-types/CustomerReducerData";
@@ -29,6 +30,9 @@ export default (state = INIT_STATE, action: TCustomerAction) => {
       const id = action.customer.id;
       if (!id) throw Error("Fail to get customer");
       return { ...state, [id]: action.customer };
+    }
+    case SEARCH_CUSTOMER: {
+      return { ..._.mapKeys(action.customers, "id") };
     }
     case DELETE_CUSTOMER: {
       return _.omit(state, action.customerId);

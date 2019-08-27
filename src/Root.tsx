@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 import { applyMiddleware, compose, createStore } from "redux";
 import { rootReducer } from "./reducers";
 import reduxThunk from "redux-thunk";

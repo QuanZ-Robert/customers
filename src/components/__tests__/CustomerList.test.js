@@ -37,8 +37,8 @@ describe("Customer List Rendering", () => {
     await expect(wrapper.find("li")).toHaveLength(1);
   });
 
-  it("should have firstName as TestFirstName", function() {
-    expect(wrapper.render().text()).toContain("TestFirstName");
+  it("should have firstName as TestFirstName", async function() {
+    await expect(wrapper.render().text()).toContain("TestFirstName");
   });
 });
 

@@ -3,7 +3,8 @@ import {
   DELETE_CUSTOMER,
   EDIT_CUSTOMER,
   GET_CUSTOMER,
-  GET_CUSTOMERS
+  GET_CUSTOMERS,
+  SEARCH_CUSTOMER
 } from "../types";
 import { ICustomer } from "../../components/json-data/CustomerData";
 
@@ -12,7 +13,8 @@ export type TCustomerAction =
   | IGetCustomersAction
   | IGetCustomerAction
   | IEditCustomerAction
-  | IDeleteCustomerAction;
+  | IDeleteCustomerAction
+  | ISearchCustomersAction;
 
 export interface ICreateCustomerAction {
   type: typeof CREATE_CUSTOMER;
@@ -37,4 +39,9 @@ export interface IEditCustomerAction {
 export interface IDeleteCustomerAction {
   type: typeof DELETE_CUSTOMER;
   customerId: string;
+}
+
+export interface ISearchCustomersAction {
+  type: typeof SEARCH_CUSTOMER;
+  customers: ICustomer[];
 }

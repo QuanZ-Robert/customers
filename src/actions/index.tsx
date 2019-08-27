@@ -6,7 +6,8 @@ import {
   IDeleteCustomerAction,
   IEditCustomerAction,
   IGetCustomerAction,
-  IGetCustomersAction
+  IGetCustomersAction,
+  ISearchCustomersAction
 } from "./data-types/CustomerActionData";
 import customerServer from "../api/customerServer";
 import {
@@ -14,9 +15,11 @@ import {
   DELETE_CUSTOMER,
   EDIT_CUSTOMER,
   GET_CUSTOMER,
-  GET_CUSTOMERS
+  GET_CUSTOMERS,
+  SEARCH_CUSTOMER
 } from "./types";
 import history from "../history";
+import _ from "lodash";
 
 export const createCustomer = (
   customer: ICustomer
@@ -90,6 +93,34 @@ export const deleteCustomer = (
     await customerServer.delete(`/customers/${id}`);
     dispatch({ type: DELETE_CUSTOMER, customerId: id });
     history.push("/");
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const searchCustomers = (
+  name: string
+): ThunkAction<
+  void,
+  TAppState,
+  null,
+  ISearchCustomersAction
+> => async dispatch => {
+  try {
+    const response = await customerServer.get("./customers");
+    const customers = response.data;
+    let searchedCustomers = _.cloneDeep(customers);
+    searchedCustomers = searchedCustomers.filter((customer: ICustomer) => {
+      const nameString: string = (
+        customer.firstName + customer.lastName
+      ).toLocaleLowerCase();
+      return nameString.includes(name.toLocaleLowerCase());
+    });
+
+    dispatch({
+      type: SEARCH_CUSTOMER,
+      customers: searchedCustomers
+    });
   } catch (e) {
     console.log(e);
   }

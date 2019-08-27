@@ -4,6 +4,7 @@ import { deleteCustomer, getCustomers } from "../actions";
 import { TAppState } from "../reducers";
 import { ICustomer } from "./json-data/CustomerData";
 import { Link } from "react-router-dom";
+import CustomerSearch from "./CustomerSearch";
 
 interface ICustomerList {
   getCustomers: () => void;
@@ -36,7 +37,8 @@ class CustomerList extends React.Component<ICustomerList> {
                 Delete
               </button>
             </div>
-            <div>{`Full Name: ${customer.firstName} ${customer.lastName}`}</div>
+            <div>{`First Name: ${customer.firstName}`}</div>
+            <div>{`Last Name: ${customer.lastName}`}</div>
             <div>{`Date of Birth: ${customer.dateOfBirth}`}</div>
           </li>
         );
@@ -52,13 +54,15 @@ class CustomerList extends React.Component<ICustomerList> {
   render() {
     return (
       <div>
-        <h2>Customers List</h2>
-        <div className="ui celled list">{this.renderCustomerList()}</div>
-        <div className="field">
-          <Link className="ui button primary" to={`/customer/new`}>
-            Add New Customer
-          </Link>
+        <div>
+          <CustomerSearch />
         </div>
+        {this.props.customerList.length > 0 && (
+          <div className="ui raised very padded text container segment">
+            <h3>Show List</h3>
+            <div className="ui celled list">{this.renderCustomerList()}</div>
+          </div>
+        )}
       </div>
     );
   }
