@@ -6,14 +6,14 @@ interface ICreationFormProps {
   initialFirstName?: string;
   initialLastName?: string;
   initialDateOfBirth?: string;
-  formType: string;
-  onFormSubmit: (customer: ICustomer) => void;
+  formType?: string;
+  onFormSubmit?: (customer: ICustomer) => void;
 }
 
 interface ICreationFormState {
   firstName: string | null;
   lastName: string | null;
-  dataOfBirth: string | null;
+  dateOfBirth: string | null;
   errorMessage: string | null;
 }
 class CustomerDetailsForm extends React.Component<
@@ -24,7 +24,7 @@ class CustomerDetailsForm extends React.Component<
     errorMessage: null,
     firstName: this.props.initialFirstName ? this.props.initialFirstName : "",
     lastName: this.props.initialLastName ? this.props.initialLastName : "",
-    dataOfBirth: this.props.initialDateOfBirth
+    dateOfBirth: this.props.initialDateOfBirth
       ? this.props.initialDateOfBirth
       : ""
   };
@@ -34,7 +34,7 @@ class CustomerDetailsForm extends React.Component<
     if (
       !this.state.firstName ||
       !this.state.lastName ||
-      !this.state.dataOfBirth
+      !this.state.dateOfBirth
     ) {
       this.setState({
         ...this.state,
@@ -43,11 +43,14 @@ class CustomerDetailsForm extends React.Component<
       return;
     }
 
-    this.props.onFormSubmit({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      dateOfBirth: this.state.dataOfBirth
-    });
+    const { onFormSubmit } = this.props;
+    if (onFormSubmit) {
+      onFormSubmit({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        dateOfBirth: this.state.dateOfBirth
+      });
+    }
   };
 
   onFirstNameUpdated = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,10 +62,11 @@ class CustomerDetailsForm extends React.Component<
   };
 
   onDateOfBirthUpdated = (e: ChangeEvent<HTMLDataElement>) => {
-    this.setState({ ...this.state, dataOfBirth: e.target.value });
+    this.setState({ ...this.state, dateOfBirth: e.target.value });
   };
 
   render() {
+    const { formType } = this.props;
     return (
       <div>
         <form onSubmit={this.handleSubmit} className="ui form error">
@@ -87,14 +91,16 @@ class CustomerDetailsForm extends React.Component<
             <input
               id="dateOfBirth"
               type="date"
-              value={this.state.dataOfBirth}
+              value={this.state.dateOfBirth}
               onChange={this.onDateOfBirthUpdated}
             />
           </div>
           <div className="field">
-            <button className="ui button primary" type="submit">
-              {this.props.formType}
-            </button>
+            {!!formType && (
+              <button className="ui button primary" type="submit">
+                {formType}
+              </button>
+            )}
             <Link className="ui button negative" to={`/`}>
               Cancel
             </Link>

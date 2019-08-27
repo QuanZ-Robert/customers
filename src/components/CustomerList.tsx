@@ -21,7 +21,7 @@ class CustomerList extends React.Component<ICustomerList> {
     if (customers && customers.length > 0) {
       return customers.map(customer => {
         return (
-          <div className="item" key={customer.id}>
+          <li className="item" key={customer.id}>
             <div className="right floated content">
               <Link
                 className="ui button primary"
@@ -38,7 +38,7 @@ class CustomerList extends React.Component<ICustomerList> {
             </div>
             <div>{`Full Name: ${customer.firstName} ${customer.lastName}`}</div>
             <div>{`Date of Birth: ${customer.dateOfBirth}`}</div>
-          </div>
+          </li>
         );
       });
     }
